@@ -3,7 +3,7 @@
 Attend Infer Repeat (AIR) [1] in PyTorch. Parts of this implementation are 
 inspired by [this Pyro tutorial](https://pyro.ai/examples/air.html) [2] and 
 [this blog post](http://akosiorek.github.io/ml/2017/09/03/implementing-air.html) [3].
-See below for a description of the model.
+See [below](#high-level-model-description) for a description of the model.
 
 Install requirements and run:
 ```
@@ -24,7 +24,8 @@ where:
 - the last column is a tighter log likelihood lower bound than the ELBO, and iws
 stands for importance-weighted samples [4]
 
-Implementation notes:
+## Implementation notes
+
 - In [1] the prior probability for presence is annealed from almost 1 to 1e-5 
 or less [3], but here it is fixed to 0.01 as suggested in [2].
     - This means that the generative model does not make much sense, since an image
