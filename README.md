@@ -16,7 +16,9 @@ implementation.
 In the other cases, the model ends up in a local maximum of the ELBO where the
 recurrent attention often predicts more objects than the ground truth (either
 using more objects to model one digit, or inferring blank objects). 
-See results below.
+
+
+## Results
 
 |  dataset             | likelihood                  | accuracy     | ELBO        | log _p(x)_ ≥ <br> [100 iws] |
 | -------------------- |:---------------------------:|:------------:|:-----------:|:-------------------:|
@@ -30,6 +32,7 @@ stands for importance-weighted samples [4]
 
 
 Reconstructions with inferred bounding boxes for one of the good runs:
+
 ![Reconstruction on original multi-MNIST](_readme_imgs/original_multimnist_recons.png)
 
 
