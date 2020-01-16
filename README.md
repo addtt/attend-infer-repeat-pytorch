@@ -15,20 +15,22 @@ Results from the paper are often (about 80% of the time) reproduced with this
 implementation.
 In the other cases, the model ends up in a local maximum of the ELBO where the
 recurrent attention often predicts more objects than the ground truth (either
-using more objects to model one digit, or inferring blank objects).
+using more objects to model one digit, or inferring blank objects). 
+See results below.
 
-See results for one of the good runs in the image and table below.
-
-![Reconstruction on original multi-MNIST](_readme_imgs/original_multimnist_recons.png)
-
-|  dataset             | likelihood      | accuracy | ELBO     | log _p(x)_ ≥ <br> [100 iws] |
-| -------------------- |:---------------:|:--------:|:--------:|:-------------:|
-| original multi-MNIST | N(_f(z)_, 0.3<sup>2</sup>)  | 98.3 %   | 628.0    | 637.1         | 
+|  dataset             | likelihood                  | accuracy     | ELBO        | log _p(x)_ ≥ <br> [100 iws] |
+| -------------------- |:---------------------------:|:------------:|:-----------:|:-------------------:|
+| original multi-MNIST | N(_f(z)_, 0.3<sup>2</sup>)  | 98.3 ± .15 % | 627.4 ± 0.7 | 636.8 ± 0.8         | 
 
 where:
+- mean and std do not include the bad runs
 - the likelihood is a Gaussian with fixed variance [1]
 - the last column is a tighter log likelihood lower bound than the ELBO, and iws
 stands for importance-weighted samples [4]
+
+
+Reconstructions with inferred bounding boxes for one of the good runs:
+![Reconstruction on original multi-MNIST](_readme_imgs/original_multimnist_recons.png)
 
 
 ## Implementation notes
