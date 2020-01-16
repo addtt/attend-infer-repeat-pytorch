@@ -34,14 +34,14 @@ stands for importance-weighted samples [4]
 ## Implementation notes
 
 - In [1] the prior probability for presence is annealed from almost 1 to 1e-5 
-or less [3], but here it is fixed to 0.01 as suggested in [2].
+or less [3], whereas here it is fixed to 0.01 as suggested in [2].
     - This means that the generative model does not make much sense, since an image
     sampled from the model will be empty with probability 0.99.
     - We can still learn the presence prior (after convergence, otherwise it doesn't
     work), which in this case converges to approximately 0.5. Results soon.
 - The other defaults are as in the paper [1].
-- In [1] the likelihood _p(x | z)_ is a Gaussian with fixed standard deviation 
-0.3, but we need Bernoulli likelihood for binary data.
+- In [1] the likelihood _p(x | z)_ is a Gaussian with fixed variance, but it has 
+to be Bernoulli for binary data.
     - This means that, unlike in [1], the decoder output must be in the interval
     [0, 1]. Clamping is the simplest solution but it doesn't work quite well.
 
