@@ -262,11 +262,11 @@ class AIRExperiment(VIExperimentManager):
 
                                # General
                                batch_size=64,
-                               test_batch_size=1000,
+                               test_batch_size=2000,
                                lr=1e-4,
                                seed=54321,
-                               log_interval=10000,
-                               test_log_interval=10000,
+                               log_interval=50000,
+                               test_log_interval=50000,
                                checkpoint_interval=100000,
                                resume="",
 
