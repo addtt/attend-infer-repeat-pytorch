@@ -36,12 +36,26 @@ class AIRExperiment(VIExperimentManager):
 
     def make_model(self):
         args = self.args
+
+        obj_size = {
+            'pyro_multi_mnist': 28,
+            'multi_mnist_binary': 18,
+            'multi_dsprites_binary_rgb': 18,
+        }[args.dataset_name]
+
+        scale_prior_mean = {
+            'pyro_multi_mnist': 3.,
+            'multi_mnist_binary': 4.5,
+            'multi_dsprites_binary_rgb': 4.5,
+        }[args.dataset_name]
+
         model = AIR(
             img_size=self.dataloaders.img_size[0],  # assume h=w
             color_channels=self.dataloaders.color_ch,
-            object_size=28,
+            object_size=obj_size,
             max_steps=3,
             likelihood=args.likelihood,
+            scale_prior_mean=scale_prior_mean,
         )
         return model
 
@@ -306,13 +320,12 @@ class AIRExperiment(VIExperimentManager):
 
         assert args.loglik_interval % args.test_log_interval == 0
 
-        likelihood_map = {
-            'pyro_multi_mnist': 'original',
-            'multi_mnist_binary': 'bernoulli',
-            'multi_dsprites_binary_rgb': 'bernoulli',
-        }
-        if args.likelihood is None:  # default
-            args.likelihood = likelihood_map[args.dataset_name]
+        if args.likelihood is None:  # defaults
+            args.likelihood = {
+                'pyro_multi_mnist': 'original',
+                'multi_mnist_binary': 'original',#'bernoulli',
+                'multi_dsprites_binary_rgb': 'original',#'bernoulli',
+            }[args.dataset_name]
 
         return args
 

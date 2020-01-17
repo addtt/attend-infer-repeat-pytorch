@@ -148,12 +148,12 @@ class AIR(BaseGenerativeModel):
         self.predictor = Predictor(self.lstm_hidden_dim)
 
         # Infer z_what given an image crop around the object
-        self.encoder = AppearanceEncoder(
-            object_size, color_channels, encoder_hidden_dim, z_what_dim)
+        self.encoder = AppearanceEncoder(object_size, color_channels,
+                                         encoder_hidden_dim, z_what_dim)
 
         # Generate pixel representation of an object given its z_what
-        self.decoder = AppearanceDecoder(
-            z_what_dim, decoder_hidden_dim, object_size, color_channels)
+        self.decoder = AppearanceDecoder(z_what_dim, decoder_hidden_dim,
+                                         object_size, color_channels)
         
         # Spatial transformer (does both forward and inverse)
         self.spatial_transf = SpatialTransformer(
@@ -289,10 +289,9 @@ class AIR(BaseGenerativeModel):
             # Save z_where to visualize bounding boxes
             all_z_where[:, t] = state.z_where  # shape (B, 3)
 
-        # Clip canvas to [0, 1] (but keep gradient)
+        # Clip canvas to [0, 1] (lose gradient where overlap)
         if self.likelihood == 'bernoulli':
-            canvas_clamped = canvas.clamp(min=0., max=1.)
-            canvas = canvas - (canvas - canvas_clamped).detach()
+            canvas = canvas.clamp(min=0., max=1.)
 
         # Inferred number of objects in each image
         inferred_n = mask_curr.sum(1)   # shape (B,)
@@ -352,9 +351,7 @@ class AIR(BaseGenerativeModel):
         lstm_input = torch.cat(
             (x_flat, prev.z_where, prev.z_what, prev.z_pres), dim=1)
         h, c = self.lstm(lstm_input, (prev.h, prev.c))
-        # torch.Size([1000, 2554]) torch.Size([1000, 256]) torch.Size([1000, 256])
-        # torch.Size([1000, 4150]) torch.Size([1000, 256]) torch.Size([1000, 256])
-        
+
         # Predictor presence and location from h
         z_pres_p, z_where_loc, z_where_scale = self.predictor(h)
         
@@ -362,7 +359,7 @@ class AIR(BaseGenerativeModel):
         z_pres_p = z_pres_p * prev.z_pres
         
         # Numerical stability
-        eps = 1e-6
+        eps = 1e-12
         z_pres_p = z_pres_p.clamp(min=eps, max=1.0-eps)
 
         # sample z_pres
@@ -371,8 +368,8 @@ class AIR(BaseGenerativeModel):
 
         # If previous z_pres is 0, then this z_pres should also be 0.
         # However, this is sampled from a Bernoulli whose probability is at
-        # least eps (1e-6). In the unlucky event that the sample is 1, we
-        # force this to 0 as well.
+        # least eps. In the unlucky event that the sample is 1, we force this
+        # to 0 as well.
         z_pres = z_pres * prev.z_pres
         
         # Likelihood: log q(z_pres[i] | x, z_{<i}) (if z_pres[i-1]=1, else 0)
