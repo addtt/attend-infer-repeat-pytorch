@@ -22,7 +22,7 @@ using more objects to model one digit, or inferring blank objects).
 
 |  dataset             | likelihood                  | accuracy     | ELBO        | log _p(x)_ ≥ <br> [100 iws] |
 | -------------------- |:---------------------------:|:------------:|:-----------:|:-------------------:|
-| original multi-MNIST | N(_f(z)_, 0.3<sup>2</sup>)  | 98.3 ± .15 % | 627.4 ± 0.7 | 636.8 ± 0.8         | 
+| original multi-MNIST | N(_f(z)_, 0.3<sup>2</sup>)  | 98.3 ± 0.15 % | 627.4 ± 0.7 | 636.8 ± 0.8         | 
 
 where:
 - mean and std do not include the bad runs
@@ -70,12 +70,11 @@ location/scale.
 ```
 python 3.7.6
 numpy 1.18.1
-torch 1.3.1
-torchvision 0.4.2
+torch 1.4.0
+torchvision 0.5.0
 matplotlib 3.1.2
-pillow 6.2.2
 tqdm 4.41.1
-boilr 0.3.5
+boilr 0.4.0
 multiobject 0.0.3
 ```
 
