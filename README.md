@@ -11,9 +11,9 @@ pip install -r requirements.txt
 CUDA_VISIBLE_DEVICES=0 python main.py
 ```
 
-Results from the paper are often (about 80% of the time) reproduced with this 
-implementation.
-In the other cases, the model ends up in a local maximum of the ELBO where the
+Results on the MNIST experiment from the paper are often (about 80% of the time)
+reproduced with this implementation.
+In the other cases, the model converges to a local maximum of the ELBO where the
 recurrent attention often predicts more objects than the ground truth (either
 using more objects to model one digit, or inferring blank objects). 
 
@@ -34,6 +34,19 @@ stands for importance-weighted samples [4]
 Reconstructions with inferred bounding boxes for one of the good runs:
 
 ![Reconstruction on original multi-MNIST](_readme_imgs/original_multimnist_recons.png)
+
+
+### Smaller objects
+
+Preliminary results on multi-MNIST and multi-dSprites, with larger images (64x64)
+and smaller objects (object patches range from 9x9 to 18x18). This is much harder
+for the model to learn, in particular z_pres inference seems to be hard. On the
+dSprites dataset only 1/4 runs are successful. Examples of successful runs below.
+
+![Reconstruction on multi-MNIST](_readme_imgs/multi_mnist_recons.png)
+
+![Reconstruction on multi-dSprites](_readme_imgs/multi_dsprites_recons.png)
+ 
 
 
 ## Implementation notes
