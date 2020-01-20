@@ -11,14 +11,16 @@ pip install -r requirements.txt
 CUDA_VISIBLE_DEVICES=0 python main.py
 ```
 
-Results on the MNIST experiment from the paper are often (about 80% of the time)
-reproduced with this implementation.
-In the other cases, the model converges to a local maximum of the ELBO where the
-recurrent attention often predicts more objects than the ground truth (either
-using more objects to model one digit, or inferring blank objects). 
 
 
 ## Results
+
+### Original multi-MNIST dataset
+
+Multi-MNIST results are often (about 80% of the time) reproduced with this implementation.
+In the other cases, the model converges to a local maximum of the ELBO where the
+recurrent attention often predicts more objects than the ground truth (either
+using more objects to model one digit, or inferring blank objects). 
 
 |  dataset             | likelihood                  | accuracy     | ELBO        | log _p(x)_ ≥ <br> [100 iws] |
 | -------------------- |:---------------------------:|:------------:|:-----------:|:-------------------:|
@@ -26,7 +28,7 @@ using more objects to model one digit, or inferring blank objects).
 
 where:
 - mean and std do not include the bad runs
-- the likelihood is a Gaussian with fixed variance [1]
+- the likelihood is a Gaussian with fixed (and large!) variance [1]
 - the last column is a tighter log likelihood lower bound than the ELBO, and iws
 stands for importance-weighted samples [4]
 
@@ -36,11 +38,12 @@ Reconstructions with inferred bounding boxes for one of the good runs:
 ![Reconstruction on original multi-MNIST](_readme_imgs/original_multimnist_recons.png)
 
 
+
 ### Smaller objects
 
 Preliminary results on multi-MNIST and multi-dSprites, with larger images (64x64)
-and smaller objects (object patches range from 9x9 to 18x18). This is much harder
-for the model to learn, in particular z_pres inference seems to be hard. On the
+and smaller objects (object patches range from 9x9 to 18x18). This is harder
+for the model to learn, especially the inference of z_pres. On the
 dSprites dataset only 1/4 runs are successful. Examples of successful runs below.
 
 ![Reconstruction on multi-MNIST](_readme_imgs/multi_mnist_recons.png)
@@ -87,7 +90,7 @@ torch 1.4.0
 torchvision 0.5.0
 matplotlib 3.1.2
 tqdm 4.41.1
-boilr 0.4.0
+boilr 0.4.1
 multiobject 0.0.3
 ```
 
