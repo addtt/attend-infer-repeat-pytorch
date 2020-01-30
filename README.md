@@ -42,8 +42,9 @@ Reconstructions with inferred bounding boxes for one of the good runs:
 ### Smaller objects
 
 Preliminary results on multi-MNIST and multi-dSprites, with larger images (64x64)
-and smaller objects (object patches range from 9x9 to 18x18). This is harder
-for the model to learn, especially the inference of z_pres. On the
+and smaller objects (object patches range from 9x9 to 18x18). The prior on object
+scale was updated to reflect the smaller patch size. This is harder
+for the model to learn, especially correct inference of z_pres. On the
 dSprites dataset only 1/4 runs are successful. Examples of successful runs below.
 
 ![Reconstruction on multi-MNIST](_readme_imgs/multi_mnist_recons.png)
