@@ -91,7 +91,7 @@ torch 1.4.0
 torchvision 0.5.0
 matplotlib 3.1.2
 tqdm 4.41.1
-boilr 0.4.2
+boilr 0.5.1
 multiobject 0.0.3
 ```
 

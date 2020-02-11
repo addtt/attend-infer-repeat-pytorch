@@ -77,7 +77,7 @@ class AIRExperiment(VIExperimentManager):
 
 
 
-    def forward_pass(self, model, x, y=None):
+    def forward_pass(self, x, y=None):
         """
         Simple single-pass model evaluation. It consists of a forward pass
         and computation of all necessary losses and metrics.
@@ -85,7 +85,7 @@ class AIRExperiment(VIExperimentManager):
 
         # Forward pass
         x = x.to(self.device, non_blocking=True)
-        out = model(x)
+        out = self.model(x)
 
         elbo_sep = out['elbo_sep']
         bl_target = out['baseline_target']
@@ -120,7 +120,7 @@ class AIRExperiment(VIExperimentManager):
 
         # L2
         l2 = 0.0
-        for p in model.parameters():
+        for p in self.model.parameters():
             l2 = l2 + torch.sum(p ** 2)
         l2 = l2.sqrt()
         out['l2'] = l2
@@ -235,7 +235,7 @@ class AIRExperiment(VIExperimentManager):
                    "Please use a larger batch.".format(n_img, x.shape[0]))
             raise RuntimeError(msg)
         x = x.to(self.device)
-        outputs = self.forward_pass(self.model, x)
+        outputs = self.forward_pass(x)
         x = x[:n_img]
         if x.shape[1] == 1:
             x = x.expand(-1, 3, -1, -1)
