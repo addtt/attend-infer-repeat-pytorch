@@ -4,7 +4,7 @@ import os
 import torch
 import torch.nn.functional as F
 from boilr import VIExperimentManager
-from boilr.utils import img_grid_pad_value
+from boilr.viz import img_grid_pad_value
 from torch import optim
 from torchvision.utils import save_image
 
@@ -323,8 +323,8 @@ class AIRExperiment(VIExperimentManager):
         if args.likelihood is None:  # defaults
             args.likelihood = {
                 'pyro_multi_mnist': 'original',
-                'multi_mnist_binary': 'original',#'bernoulli',
-                'multi_dsprites_binary_rgb': 'original',#'bernoulli',
+                'multi_mnist_binary': 'original',  # 'bernoulli',
+                'multi_dsprites_binary_rgb': 'original',  # 'bernoulli',
             }[args.dataset_name]
 
         return args
